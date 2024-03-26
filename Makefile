@@ -3,3 +3,5 @@ run:
 
 format: 
 	dotnet format
+	find . -type f -name "*.cs" -exec sed -i 's/\r//g' {} +
+

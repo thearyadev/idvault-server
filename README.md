@@ -7,6 +7,8 @@
 3. Clone the repository
 4. Open the project in your IDE
 5. Ensure database is running (NOT IMPLEMENTED)
+6. Run the project (Use IDE run button or `dotnet run`)
+7. Ensure webserver is functional by navigating to `localhost:<port>` in your web browser. You should see some response for the `/` route.
 
 
 ## Database - PostgreSQL

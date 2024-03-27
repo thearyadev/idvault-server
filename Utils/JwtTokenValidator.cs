@@ -7,7 +7,11 @@ namespace idvault_server.TokenValidator
 {
     public class JwtTokenValidator
     {
-        public static string? ValidateToken(IHeaderDictionary headers)
+        private static readonly byte[] Key = Encoding.ASCII.GetBytes(
+            "11111111111111111111111111111111"
+        ); // load from config
+
+        public static string? ValidateTokenAndGetCurrentUser(IHeaderDictionary headers)
         {
             if (!headers.ContainsKey("Authorization"))
             {
@@ -20,7 +24,6 @@ namespace idvault_server.TokenValidator
 
             token = token.Replace("Bearer ", "");
 
-            var key = Encoding.ASCII.GetBytes("11111111111111111111111111111111"); // load from config
             var tokenHandler = new JwtSecurityTokenHandler();
             try
             {
@@ -29,7 +32,7 @@ namespace idvault_server.TokenValidator
                     new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        IssuerSigningKey = new SymmetricSecurityKey(Key),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateLifetime = true,
@@ -46,6 +49,25 @@ namespace idvault_server.TokenValidator
             {
                 return null;
             }
+        }
+
+        public static string GenerateTokenWithUserName(string username)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(
+                    new Claim[] { new Claim(ClaimTypes.Name, username) }
+                ),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(Key),
+                    SecurityAlgorithms.HmacSha256Signature
+                )
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+            return tokenString;
         }
     }
 }

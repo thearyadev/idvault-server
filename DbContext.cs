@@ -8,8 +8,9 @@ namespace IdVaultServer.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext>? options)
                     : base(options ?? throw new ArgumentNullException(nameof(options)))
         {
+                Users = Set<User>();
         }
-        public DbSet<User>? Users { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

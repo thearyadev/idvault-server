@@ -1,0 +1,5 @@
+- database connection 
+- database deploy
+- create classes
+- verify crud
+- abstract endpoints from program.cs

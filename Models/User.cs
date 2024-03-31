@@ -20,5 +20,7 @@ namespace IdVaultServer.Models
 
         [Required]
         public string? Password { get; set; }
+
+        public ICollection<Document>? Documents { get; set;}
     }
 }

@@ -4,7 +4,7 @@ run:
 update:
 	dotnet ef database update
 migrate:
-	dotnet ef migrations add $(ARGS)
+	dotnet ef migrations add "InitialCreate"
 format: 
 	dotnet format
 	find . -type f -name "*.cs" -exec sed -i 's/\r//g' {} +

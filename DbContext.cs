@@ -23,12 +23,29 @@ namespace IdVaultServer.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>();
-            modelBuilder.Entity<DriversLicense>().HasBaseType<Document>();
-            modelBuilder.Entity<BirthCertificate>().HasBaseType<Document>();
-            modelBuilder.Entity<Passport>().HasBaseType<Document>();
+            modelBuilder
+                .Entity<User>()
+                .HasData(
+                    new User
+                    {
+                        UserId = 1,
+                        Username = "arya",
+                        Password = "password1",
+                        Name = "Aryan Kothari",
+                        Email = "aryan@aryankothari.dev",
+                        PhoneNumber = "64777610177"
+                    }
+                );
+            /* modelBuilder.Entity<DriversLicense>().HasBaseType<Document>(); */
+            /* modelBuilder.Entity<BirthCertificate>().HasBaseType<Document>(); */
+            /* modelBuilder.Entity<Passport>().HasBaseType<Document>(); */
+            modelBuilder.Entity<Document>().ToTable("Documents");
+            modelBuilder.Entity<DriversLicense>().ToTable("DriversLicenses");
+            modelBuilder.Entity<BirthCertificate>().ToTable("BirthCertificates");
+            modelBuilder.Entity<Passport>().ToTable("Passports");
 
-            modelBuilder.Entity<Document>()
+            modelBuilder
+                .Entity<Document>()
                 .HasOne(d => d.User)
                 .WithMany(u => u.Documents)
                 .HasForeignKey(d => d.UserId);

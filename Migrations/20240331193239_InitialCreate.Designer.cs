@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace idvault_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240331171306_InitialCreate")]
+    [Migration("20240331193239_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,14 +33,9 @@ namespace idvault_server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DocumentId"));
 
-                    b.Property<string>("CreationDate")
+                    b.Property<DateTime?>("CreationDate")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("character varying(21)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DocumentType")
                         .IsRequired()
@@ -65,11 +60,9 @@ namespace idvault_server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Documents");
+                    b.ToTable("Documents", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Document");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("IdVaultServer.Models.User", b =>
@@ -103,6 +96,17 @@ namespace idvault_server.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Email = "aryan@aryankothari.dev",
+                            Name = "Aryan Kothari",
+                            Password = "password1",
+                            PhoneNumber = "64777610177",
+                            Username = "arya"
+                        });
                 });
 
             modelBuilder.Entity("IdVaultServer.Models.BirthCertificate", b =>
@@ -130,7 +134,7 @@ namespace idvault_server.Migrations
                     b.Property<string>("Sex")
                         .HasColumnType("text");
 
-                    b.HasDiscriminator().HasValue("BirthCertificate");
+                    b.ToTable("BirthCertificates", (string)null);
                 });
 
             modelBuilder.Entity("IdVaultServer.Models.DriversLicense", b =>
@@ -164,16 +168,7 @@ namespace idvault_server.Migrations
                     b.Property<string>("Sex")
                         .HasColumnType("text");
 
-                    b.ToTable("Documents", t =>
-                        {
-                            t.Property("DateOfBirth")
-                                .HasColumnName("DriversLicense_DateOfBirth");
-
-                            t.Property("Sex")
-                                .HasColumnName("DriversLicense_Sex");
-                        });
-
-                    b.HasDiscriminator().HasValue("DriversLicense");
+                    b.ToTable("DriversLicenses", (string)null);
                 });
 
             modelBuilder.Entity("IdVaultServer.Models.Passport", b =>
@@ -198,16 +193,7 @@ namespace idvault_server.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("text");
 
-                    b.ToTable("Documents", t =>
-                        {
-                            t.Property("DateOfBirth")
-                                .HasColumnName("Passport_DateOfBirth");
-
-                            t.Property("Name")
-                                .HasColumnName("Passport_Name");
-                        });
-
-                    b.HasDiscriminator().HasValue("Passport");
+                    b.ToTable("Passports", (string)null);
                 });
 
             modelBuilder.Entity("IdVaultServer.Models.Document", b =>
@@ -219,6 +205,33 @@ namespace idvault_server.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("IdVaultServer.Models.BirthCertificate", b =>
+                {
+                    b.HasOne("IdVaultServer.Models.Document", null)
+                        .WithOne()
+                        .HasForeignKey("IdVaultServer.Models.BirthCertificate", "DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IdVaultServer.Models.DriversLicense", b =>
+                {
+                    b.HasOne("IdVaultServer.Models.Document", null)
+                        .WithOne()
+                        .HasForeignKey("IdVaultServer.Models.DriversLicense", "DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IdVaultServer.Models.Passport", b =>
+                {
+                    b.HasOne("IdVaultServer.Models.Document", null)
+                        .WithOne()
+                        .HasForeignKey("IdVaultServer.Models.Passport", "DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IdVaultServer.Models.User", b =>

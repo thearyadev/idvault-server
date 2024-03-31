@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace IdVaultServer.Models
 {
@@ -6,13 +7,15 @@ namespace IdVaultServer.Models
     {
         public int DocumentId { get; set; }
         [Required]
+        [JsonIgnore]
         public int UserId { get; set;}
         [Required]
+        [JsonIgnore]
         public User? User { get; set; }
         [Required]
         public string? DocumentType { get; set; }
         [Required]
-        public string? CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
         [Required]
         public DateTime? ExpirationDate { get; set; }
         [Required]

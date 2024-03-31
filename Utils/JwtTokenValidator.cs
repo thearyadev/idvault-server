@@ -59,7 +59,7 @@ namespace idvault_server.TokenValidator
                 Subject = new ClaimsIdentity(
                     new Claim[] { new Claim(ClaimTypes.Name, username) }
                 ),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddHours(500),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(Key),
                     SecurityAlgorithms.HmacSha256Signature

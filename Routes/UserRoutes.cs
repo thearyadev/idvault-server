@@ -6,34 +6,39 @@ public static class UserRoutes
 {
     public static void MapUserRoutes(this IEndpointRouteBuilder endpoints)
     {
-        /* endpoints.MapGet( */
-        /*     "/", */
-        /*     async context => */
-        /*     { */
-        /*         string? user = JwtTokenValidator.ValidateTokenAndGetCurrentUser( */
-        /*             context.Request.Headers */
-        /*         ); */
-        /*         if (user == null) */
-        /*         { */
-        /*             context.Response.StatusCode = 401; */
-        /*             context.Response.ContentType = "text/json"; */
-        /*             await context.Response.WriteAsJsonAsync( */
-        /*                 new { error = new { message = "Unauthorized", } } */
-        /*             ); */
-        /*             return; */
-        /*         } */
+        endpoints.MapGet(
+            "/users/me",
+            async context =>
+            {
+                string? user = JwtTokenValidator.ValidateTokenAndGetCurrentUser(
+                    context.Request.Headers
+                );
+                if (user == null)
+                {
+                    context.Response.StatusCode = 401;
+                    context.Response.ContentType = "text/json";
+                    await context.Response.WriteAsJsonAsync(
+                        new { error = new { message = "Unauthorized", } }
+                    );
+                    return;
+                }
 
-        /*         await context.Response.WriteAsJsonAsync( */
-        /*             new */
-        /*             { */
-        /*                 user = JwtTokenValidator.ValidateTokenAndGetCurrentUser( */
-        /*                     context.Request.Headers */
-        /*                 ) */
-        /*             } */
-        /*         ); */
-        /*         return; */
-        /*     } */
-        /* ); */
+                using var dbContext = context.RequestServices.GetService<ApplicationDbContext>(); 
+                var user_data = dbContext!.Users.FirstOrDefault(u => u.Username == user);
+                if (user_data == null)
+                {
+                    context.Response.StatusCode = 404;
+                    context.Response.ContentType = "text/json";
+                    await context.Response.WriteAsJsonAsync(
+                        new { error = new { message = "User not found", } }
+                    );
+                    return;
+                }
+                context.Response.ContentType = "text/json";
+                await context.Response.WriteAsJsonAsync(user_data);
+                return;
+            }
+        );
 
         endpoints.MapPost(
             "/users/login",
@@ -120,6 +125,5 @@ public static class UserRoutes
                 return;
             }
         );
-        endpoints.MapGet("/users/me", async context => { });
     }
 }

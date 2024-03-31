@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace IdVaultServer.Models
 {
@@ -19,8 +20,10 @@ namespace IdVaultServer.Models
         public string? PhoneNumber { get; set; }
 
         [Required]
+        [JsonIgnore]
         public string? Password { get; set; }
-
+        
+        [JsonIgnore]
         public ICollection<Document>? Documents { get; set;}
     }
 }

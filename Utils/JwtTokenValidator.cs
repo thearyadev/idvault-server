@@ -66,7 +66,7 @@ namespace idvault_server.TokenValidator
                 )
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+            var tokenString = tokenHandler.WriteToken(token)!;
             return tokenString;
         }
     }

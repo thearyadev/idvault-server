@@ -256,6 +256,7 @@ public static class DocumentRoutes
 
                     document!.UserId = user_data.UserId;
                     document!.User = user_data;
+                    document!.ValidationStatus = "Pending";
                     dbContext!.DriversLicenses.Add(document);
                     dbContext!.SaveChanges();
                     context.Response.ContentType = "text/json";
@@ -283,6 +284,7 @@ public static class DocumentRoutes
 
                     document!.UserId = user_data.UserId;
                     document!.User = user_data;
+                    document!.ValidationStatus = "Pending";
                     dbContext!.BirthCertificates.Add(document);
                     dbContext!.SaveChanges();
                     context.Response.ContentType = "text/json";
@@ -310,6 +312,7 @@ public static class DocumentRoutes
 
                     document!.UserId = user_data.UserId;
                     document!.User = user_data;
+                    document!.ValidationStatus = "Pending";
                     dbContext!.Passports.Add(document);
                     dbContext!.SaveChanges();
                     context.Response.ContentType = "text/json";

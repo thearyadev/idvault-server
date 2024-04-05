@@ -1,3 +1,4 @@
+using System.Text.Json;
 using IdVaultServer.Data;
 using IdVaultServer.Models;
 using idvault_server.TokenValidator;
@@ -236,7 +237,8 @@ public static class DocumentRoutes
 
                 if (document_type == "DriversLicense")
                 {
-                    var document = await context.Request.ReadFromJsonAsync<DriversLicense>();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, };
+                    var document = await context.Request.ReadFromJsonAsync<DriversLicense>(options);
                     document!.DocumentType = "DriversLicense";
                     document!.CreationDate = DateTime.Now.ToUniversalTime();
 
@@ -265,7 +267,11 @@ public static class DocumentRoutes
                 }
                 else if (document_type == "BirthCertificate")
                 {
-                    var document = await context.Request.ReadFromJsonAsync<BirthCertificate>();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, };
+
+                    var document = await context.Request.ReadFromJsonAsync<BirthCertificate>(
+                        options
+                    );
                     document!.DocumentType = "BirthCertificate";
                     document!.CreationDate = DateTime.Now.ToUniversalTime();
                     if (document.ExpirationDate.HasValue)
@@ -293,7 +299,9 @@ public static class DocumentRoutes
                 }
                 else if (document_type == "Passport")
                 {
-                    var document = await context.Request.ReadFromJsonAsync<Passport>();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, };
+
+                    var document = await context.Request.ReadFromJsonAsync<Passport>(options);
                     document!.DocumentType = "Passport";
                     document!.CreationDate = DateTime.Now.ToUniversalTime();
                     if (document.ExpirationDate.HasValue)

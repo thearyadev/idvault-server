@@ -9,9 +9,12 @@ var services = builder.Services;
 var jwtKey = builder.Configuration.GetValue<string>("Jwt:Key");
 var authSymmetricKey = jwtKey != null ? Encoding.UTF8.GetBytes(jwtKey) : null;
 
+string? ConnectionString =
+    Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
+    builder.Configuration.GetConnectionString("DefaultConnection");
+
 services.AddDbContext<ApplicationDbContext>(
-    options => options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+    options => options.UseNpgsql(ConnectionString));
 
 services
     .AddAuthentication(options => {
@@ -37,5 +40,10 @@ if (!app.Environment.IsDevelopment()) {
 app.UseAuthentication();
 app.MapUserRoutes();
 app.MapDocumentRoutes();
+
+using (var scope = app.Services.CreateScope()) {
+  var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+  dbContext.Database.Migrate();
+}
 
 app.Run();

@@ -12,7 +12,7 @@ var authSymmetricKey = jwtKey != null ? Encoding.UTF8.GetBytes(jwtKey) : null;
 string? ConnectionString =
     Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
     builder.Configuration.GetConnectionString("DefaultConnection");
-
+Console.WriteLine("Using connection string: " + ConnectionString);
 services.AddDbContext<ApplicationDbContext>(
     options => options.UseNpgsql(ConnectionString));
 

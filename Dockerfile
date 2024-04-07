@@ -16,8 +16,6 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-ENV DB_CONNECTION_STRING="Server=192.168.1.160;port=5432;Database=postgres;User id=postgres;Password=idvault_server;"
-
 ENTRYPOINT ["dotnet", "idvault-server.dll"]
 
 

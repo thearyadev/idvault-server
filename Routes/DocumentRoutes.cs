@@ -287,6 +287,10 @@ public static class DocumentRoutes
                     {
                         document.DateOfBirth = document.DateOfBirth.Value.ToUniversalTime();
                     }
+                    if (document.DateOfRegistration.HasValue)
+                    {
+                        document.DateOfRegistration = document.DateOfRegistration.Value.ToUniversalTime();
+                    }
 
                     document!.UserId = user_data.UserId;
                     document!.User = user_data;

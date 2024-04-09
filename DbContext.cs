@@ -29,16 +29,13 @@ namespace IdVaultServer.Data
                     new User
                     {
                         UserId = 1,
-                        Username = "arya",
-                        Password = "password1",
-                        Name = "Aryan Kothari",
-                        Email = "aryan@aryankothari.dev",
-                        PhoneNumber = "64777610177"
+                        Username = "testuser",
+                        Password = "testuser",
+                        Name = "testuser",
+                        Email = "test@testuser.com",
+                        PhoneNumber = "4169973041"
                     }
                 );
-            /* modelBuilder.Entity<DriversLicense>().HasBaseType<Document>(); */
-            /* modelBuilder.Entity<BirthCertificate>().HasBaseType<Document>(); */
-            /* modelBuilder.Entity<Passport>().HasBaseType<Document>(); */
             modelBuilder.Entity<Document>().ToTable("Documents");
             modelBuilder.Entity<DriversLicense>().ToTable("DriversLicenses");
             modelBuilder.Entity<BirthCertificate>().ToTable("BirthCertificates");

@@ -1,5 +1,8 @@
-- database connection 
-- database deploy
-- create classes
-- verify crud
-- abstract endpoints from program.cs
+- postgresql 
+    - scalable 
+    - supports table inheritance
+    - performs well 
+    - widely supported
+        - aws 
+        - google cloud
+

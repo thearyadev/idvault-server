@@ -20,6 +20,9 @@ namespace IdVaultServer.Models
         public string? PhoneNumber { get; set; }
 
         [Required]
+        public string? PublicKey { get; set; }
+
+        [Required]
         [JsonIgnore]
         public string? Password { get; set; }
         

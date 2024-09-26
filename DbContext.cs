@@ -33,7 +33,8 @@ namespace IdVaultServer.Data
                         Password = "testuser",
                         Name = "testuser",
                         Email = "test@testuser.com",
-                        PhoneNumber = "4169973041"
+                        PhoneNumber = "4169973041", 
+                        PublicKey = "1232434556"
                     }
                 );
             modelBuilder.Entity<Document>().ToTable("Documents");

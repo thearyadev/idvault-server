@@ -14,13 +14,5 @@ namespace IdVaultServer.Models
         public User? User { get; set; }
         [Required]
         public string? DocumentType { get; set; }
-        [Required]
-        public DateTime? CreationDate { get; set; }
-        [Required]
-        public DateTime? ExpirationDate { get; set; }
-        [Required]
-        public DateTime? IssueDate { get; set; }
-        [Required]
-        public string? ValidationStatus { get; set; }
     }
 }

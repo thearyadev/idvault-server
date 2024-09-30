@@ -273,6 +273,101 @@ public static class DocumentRoutes
             }
         );
 
+        endpoints.MapGet(
+    "/documents/details/{document_id}",
+    async context =>
+    {
+        string? user = JwtTokenValidator.ValidateTokenAndGetCurrentUser(
+            context.Request.Headers
+        );
+        if (user == null)
+        {
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(
+                new { error = new { message = "Unauthorized", } }
+            );
+            return;
+        }
+
+        using var dbContext = context.RequestServices.GetService<ApplicationDbContext>();
+        var user_data = dbContext!.Users.FirstOrDefault(u => u.Username == user);
+
+        if (user_data == null)
+        {
+            context.Response.StatusCode = 404;
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(
+                new { error = new { message = "User not found", } }
+            );
+            return;
+        }
+
+        var document_id = context.Request.RouteValues["document_id"] as string;
+        if (document_id == null)
+        {
+            context.Response.StatusCode = 400;
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(
+                new { error = new { message = "Document ID not provided", } }
+            );
+            return;
+        }
+
+        var documentSuperClassObject = dbContext!.Documents.FirstOrDefault(d =>
+            d.DocumentId == int.Parse(document_id)
+        );
+
+        if (documentSuperClassObject == null)
+        {
+            context.Response.StatusCode = 404;
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(
+                new { error = new { message = "Document not found", } }
+            );
+            return;
+        }
+
+        if (documentSuperClassObject.UserId != user_data.UserId)
+        {
+            context.Response.StatusCode = 403;
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(
+                new { error = new { message = "Forbidden", } }
+            );
+            return;
+        }
+
+        if (documentSuperClassObject.DocumentType == "DriversLicense")
+        {
+            var document = dbContext!.DriversLicenses.FirstOrDefault(d =>
+                d.DocumentId == documentSuperClassObject.DocumentId
+            );
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(document);
+            return;
+        }
+        else if (documentSuperClassObject.DocumentType == "BirthCertificate")
+        {
+            var document = dbContext!.BirthCertificates.FirstOrDefault(d =>
+                d.DocumentId == documentSuperClassObject.DocumentId
+            );
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(document);
+            return;
+        }
+        else if (documentSuperClassObject.DocumentType == "Passport")
+        {
+            var document = dbContext!.Passports.FirstOrDefault(d =>
+                d.DocumentId == documentSuperClassObject.DocumentId
+            );
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(document);
+            return;
+        }
+    }
+);
+
 
     }
 }

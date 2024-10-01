@@ -1,12 +1,73 @@
 using IdVaultServer.Data;
 using idvault_server.TokenValidator;
 using IdVaultServer.Models;
+using System.Runtime.InteropServices;
+using System.Text.Json;
+
 
 public static class UserRoutes {
   public static void MapUserRoutes(this IEndpointRouteBuilder endpoints) {
 
     endpoints.MapGet("/", async context => {
       await context.Response.WriteAsync("Welcome to IdVault Server");
+    });
+
+    endpoints.MapPost("/users/key", async context =>
+    {
+        string? user = JwtTokenValidator.ValidateTokenAndGetCurrentUser(
+        context.Request.Headers);
+        if (user == null)
+        {
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(new
+            {
+                error = new
+                {
+                    message = "Unauthorized",
+                }
+            });
+            return;
+        }
+
+        using var dbContext =
+            context.RequestServices.GetService<ApplicationDbContext>();
+        var user_data = dbContext!.Users.FirstOrDefault(u => u.Username == user);
+        if (user_data == null)
+        {
+            context.Response.StatusCode = 404;
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(new
+            {
+                error = new
+                {
+                    message = "User not found",
+                }
+            });
+            return;
+        }
+
+        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, };
+        var requestData = await context.Request.ReadFromJsonAsync<JsonElement>(options);
+        if (requestData.TryGetProperty("publicKey", out JsonElement publicKeyElement)){
+            var publicKey = publicKeyElement.GetString();
+            dbContext!.Users.First(u => u.UserId == user_data.UserId).PublicKey = publicKey;
+            dbContext.SaveChangesAsync();
+        } else
+        {
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "text/json";
+            await context.Response.WriteAsJsonAsync(new
+            {
+                error = new
+                {
+                    message = "No public key provided",
+                }
+            });
+            return;
+        }
+
+
     });
 
     endpoints.MapGet("/users/me", async context => {

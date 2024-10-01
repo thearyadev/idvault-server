@@ -13,6 +13,7 @@ namespace IdVaultServer.Data
             DriversLicenses = Set<DriversLicense>();
             BirthCertificates = Set<BirthCertificate>();
             Passports = Set<Passport>();
+            SharedDocuments = Set<SharedDocument>();
         }
 
         public DbSet<User> Users { get; set; }
@@ -20,6 +21,7 @@ namespace IdVaultServer.Data
         public DbSet<DriversLicense> DriversLicenses { get; set; }
         public DbSet<BirthCertificate> BirthCertificates { get; set; }
         public DbSet<Passport> Passports { get; set; }
+        public DbSet<SharedDocument> SharedDocuments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

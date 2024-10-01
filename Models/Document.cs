@@ -15,4 +15,12 @@ namespace IdVaultServer.Models
         [Required]
         public string? DocumentType { get; set; }
     }
+    
+    public class SharedDocument
+    {
+        public int DocumentId {get; set;}
+        public int SenderUserId {get; set;}
+        public int ReceiverUserId {get; set;}
+        public DateTime ExpiryDate {get; set;}
+    }
 }

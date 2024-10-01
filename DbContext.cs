@@ -37,6 +37,8 @@ namespace IdVaultServer.Data
                         PublicKey = "1232434556"
                     }
                 );
+
+            modelBuilder.Entity<SharedDocument>().ToTable("SharedDocuments");
             modelBuilder.Entity<Document>().ToTable("Documents");
             modelBuilder.Entity<DriversLicense>().ToTable("DriversLicenses");
             modelBuilder.Entity<BirthCertificate>().ToTable("BirthCertificates");

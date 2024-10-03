@@ -56,14 +56,12 @@ namespace idvault_server.TokenValidator
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(
-                    new Claim[] { new Claim(ClaimTypes.Name, username) }
-                ),
+                Subject = new ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.Name, username) }),
                 Expires = DateTime.UtcNow.AddHours(500),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(Key),
                     SecurityAlgorithms.HmacSha256Signature
-                )
+                ),
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token)!;

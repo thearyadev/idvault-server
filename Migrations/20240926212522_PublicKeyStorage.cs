@@ -15,22 +15,22 @@ namespace idvault_server.Migrations
                 table: "Users",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "UserId",
                 keyValue: 1,
                 column: "PublicKey",
-                value: "1232434556");
+                value: "1232434556"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "PublicKey",
-                table: "Users");
+            migrationBuilder.DropColumn(name: "PublicKey", table: "Users");
         }
     }
 }

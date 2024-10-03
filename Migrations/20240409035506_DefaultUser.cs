@@ -15,7 +15,15 @@ namespace idvault_server.Migrations
                 keyColumn: "UserId",
                 keyValue: 1,
                 columns: new[] { "Email", "Name", "Password", "PhoneNumber", "Username" },
-                values: new object[] { "test@testuser.com", "testuser", "testuser", "4169973041", "testuser" });
+                values: new object[]
+                {
+                    "test@testuser.com",
+                    "testuser",
+                    "testuser",
+                    "4169973041",
+                    "testuser",
+                }
+            );
         }
 
         /// <inheritdoc />
@@ -26,7 +34,15 @@ namespace idvault_server.Migrations
                 keyColumn: "UserId",
                 keyValue: 1,
                 columns: new[] { "Email", "Name", "Password", "PhoneNumber", "Username" },
-                values: new object[] { "aryan@aryankothari.dev", "Aryan Kothari", "password1", "64777610177", "arya" });
+                values: new object[]
+                {
+                    "aryan@aryankothari.dev",
+                    "Aryan Kothari",
+                    "password1",
+                    "64777610177",
+                    "arya",
+                }
+            );
         }
     }
 }

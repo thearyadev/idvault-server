@@ -10,9 +10,7 @@ namespace idvault_server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "CreationDate",
-                table: "Documents");
+            migrationBuilder.DropColumn(name: "CreationDate", table: "Documents");
         }
 
         /// <inheritdoc />
@@ -23,7 +21,8 @@ namespace idvault_server.Migrations
                 table: "Documents",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
         }
     }
 }

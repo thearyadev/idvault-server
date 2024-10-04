@@ -233,6 +233,7 @@ public static class DocumentRoutes
                     var document = await context.Request.ReadFromJsonAsync<DriversLicense>(options);
                     document!.UserId = recipient.UserId;
                     document!.User = recipient;
+                    document!.DocumentId = 0; // ensure the db creates a new doc id.
                     dbContext!.DriversLicenses.Add(document);
                     dbContext!.SaveChanges();
 
@@ -258,6 +259,8 @@ public static class DocumentRoutes
                     );
                     document!.UserId = recipient.UserId;
                     document!.User = recipient;
+                    document!.DocumentId = 0; // ensure the db creates a new doc id.
+
                     dbContext!.BirthCertificates.Add(document);
                     dbContext!.SaveChanges();
                     context.Response.ContentType = "text/json";
@@ -280,6 +283,8 @@ public static class DocumentRoutes
                     var document = await context.Request.ReadFromJsonAsync<Passport>(options);
                     document!.UserId = recipient.UserId;
                     document!.User = recipient;
+                    document!.DocumentId = 0; // ensure the db creates a new doc id.
+
                     dbContext!.Passports.Add(document);
                     dbContext!.SaveChanges();
                     context.Response.ContentType = "text/json";
@@ -530,7 +535,9 @@ public static class DocumentRoutes
                 }
 
                 var recipientUserName = context.Request.RouteValues["recipient"] as string;
-                var recipient = dbContext!.Users.FirstOrDefault(u => u.Username == recipientUserName);
+                var recipient = dbContext!.Users.FirstOrDefault(u =>
+                    u.Username == recipientUserName
+                );
                 if (recipient == null)
                 {
                     context.Response.StatusCode = 401;
@@ -544,6 +551,82 @@ public static class DocumentRoutes
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "text/json";
                 await context.Response.WriteAsJsonAsync(new { publicKey = recipient.PublicKey });
+            }
+        );
+        endpoints.MapGet(
+            "/documents/shared",
+            async context =>
+            {
+                string? user = JwtTokenValidator.ValidateTokenAndGetCurrentUser(
+                    context.Request.Headers
+                );
+                if (user == null)
+                {
+                    context.Response.StatusCode = 401;
+                    context.Response.ContentType = "text/json";
+                    await context.Response.WriteAsJsonAsync(
+                        new { error = new { message = "Unauthorized" } }
+                    );
+                    return;
+                }
+
+                using var dbContext = context.RequestServices.GetService<ApplicationDbContext>();
+                var user_data = dbContext!.Users.FirstOrDefault(u => u.Username == user);
+
+                if (user_data == null)
+                {
+                    context.Response.StatusCode = 404;
+                    context.Response.ContentType = "text/json";
+                    await context.Response.WriteAsJsonAsync(
+                        new { error = new { message = "User not found" } }
+                    );
+                    return;
+                }
+
+
+
+
+                // 1. get all documents in share table that have this userid
+                var sharedDocuments = dbContext!.SharedDocuments.Where(s => s.ReceiverUserId == user_data.UserId).ToList();
+                // 2. for each shared document, get the document
+                var documents = new List<Document>();
+                foreach (var sharedDoc in sharedDocuments)
+                {
+                    documents.Add(dbContext!.Documents.FirstOrDefault(d => d.DocumentId == sharedDoc.DocumentId));
+                }
+
+                var documentsExpanded = new List<dynamic>();
+                foreach (var docMain in documents)
+                {
+                    if (docMain.DocumentType == "DriversLicense")
+                    {
+                        documentsExpanded.Add(
+                            dbContext!.DriversLicenses.FirstOrDefault(d =>
+                                d.DocumentId == docMain.DocumentId
+                            )!
+                        );
+                    }
+                    else if (docMain.DocumentType == "BirthCertificate")
+                    {
+                        documentsExpanded.Add(
+                            dbContext!.BirthCertificates.FirstOrDefault(d =>
+                                d.DocumentId == docMain.DocumentId
+                            )!
+                        );
+                    }
+                    else if (docMain.DocumentType == "Passport")
+                    {
+                        documentsExpanded.Add(
+                            dbContext!.Passports.FirstOrDefault(d => d.DocumentId == docMain.DocumentId)!
+                        );
+                    }
+
+                }
+
+
+                context.Response.ContentType = "text/json";
+                await context.Response.WriteAsJsonAsync(documentsExpanded);
+                return;
             }
         );
     }

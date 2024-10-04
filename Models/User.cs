@@ -25,8 +25,8 @@ namespace IdVaultServer.Models
         [Required]
         [JsonIgnore]
         public string? Password { get; set; }
-        
+
         [JsonIgnore]
-        public ICollection<Document>? Documents { get; set;}
+        public ICollection<Document>? Documents { get; set; }
     }
 }

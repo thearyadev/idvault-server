@@ -10,13 +10,9 @@ namespace idvault_server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "ExpirationDate",
-                table: "Documents");
+            migrationBuilder.DropColumn(name: "ExpirationDate", table: "Documents");
 
-            migrationBuilder.DropColumn(
-                name: "IssueDate",
-                table: "Documents");
+            migrationBuilder.DropColumn(name: "IssueDate", table: "Documents");
         }
 
         /// <inheritdoc />
@@ -27,14 +23,16 @@ namespace idvault_server.Migrations
                 table: "Documents",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "IssueDate",
                 table: "Documents",
                 type: "text",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
         }
     }
 }

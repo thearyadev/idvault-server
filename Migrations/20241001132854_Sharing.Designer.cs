@@ -3,6 +3,7 @@ using System;
 using IdVaultServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace idvault_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241001132854_Sharing")]
+    partial class Sharing
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,21 +115,11 @@ namespace idvault_server.Migrations
                         {
                             UserId = 1,
                             Email = "test@testuser.com",
-                            Name = "User 1",
-                            Password = "user1",
+                            Name = "testuser",
+                            Password = "testuser",
                             PhoneNumber = "4169973041",
-                            PublicKey = "",
-                            Username = "user1"
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            Email = "user2@user2.com",
-                            Name = "User 2",
-                            Password = "user2",
-                            PhoneNumber = "6473310099",
-                            PublicKey = "",
-                            Username = "user2"
+                            PublicKey = "1232434556",
+                            Username = "testuser"
                         });
                 });
 

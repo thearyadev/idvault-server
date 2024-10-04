@@ -18,7 +18,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp with time zone",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Height",
@@ -27,7 +28,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(decimal),
                 oldType: "numeric",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "DateOfBirth",
@@ -36,7 +38,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp with time zone",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "IssueDate",
@@ -44,7 +47,8 @@ namespace idvault_server.Migrations
                 type: "text",
                 nullable: false,
                 oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+                oldType: "timestamp with time zone"
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "ExpirationDate",
@@ -52,7 +56,8 @@ namespace idvault_server.Migrations
                 type: "text",
                 nullable: false,
                 oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+                oldType: "timestamp with time zone"
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "CreationDate",
@@ -60,7 +65,8 @@ namespace idvault_server.Migrations
                 type: "text",
                 nullable: false,
                 oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+                oldType: "timestamp with time zone"
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "DateOfRegistration",
@@ -69,7 +75,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp with time zone",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "DateOfBirth",
@@ -78,7 +85,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp with time zone",
-                oldNullable: true);
+                oldNullable: true
+            );
         }
 
         /// <inheritdoc />
@@ -91,7 +99,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "text",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<decimal>(
                 name: "Height",
@@ -100,7 +109,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "text",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "DateOfBirth",
@@ -109,7 +119,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "text",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "IssueDate",
@@ -117,7 +128,8 @@ namespace idvault_server.Migrations
                 type: "timestamp with time zone",
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "text");
+                oldType: "text"
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "ExpirationDate",
@@ -125,7 +137,8 @@ namespace idvault_server.Migrations
                 type: "timestamp with time zone",
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "text");
+                oldType: "text"
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreationDate",
@@ -133,7 +146,8 @@ namespace idvault_server.Migrations
                 type: "timestamp with time zone",
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "text");
+                oldType: "text"
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "DateOfRegistration",
@@ -142,7 +156,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "text",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "DateOfBirth",
@@ -151,7 +166,8 @@ namespace idvault_server.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "text",
-                oldNullable: true);
+                oldNullable: true
+            );
         }
     }
 }

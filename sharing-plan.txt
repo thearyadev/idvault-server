@@ -1,0 +1,7 @@
+1. user shares document with another user
+2. user2 downloads user1 public key
+3. user2 encrypts document with user1 public key
+4. user2 uploads encrypted document database as normal document
+5. shared document table is updated with sender, recipient, and document id 
+
+

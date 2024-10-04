@@ -31,12 +31,22 @@ namespace IdVaultServer.Data
                     new User
                     {
                         UserId = 1,
-                        Username = "testuser",
-                        Password = "testuser",
-                        Name = "testuser",
+                        Username = "user1",
+                        Password = "user1",
+                        Name = "User 1",
                         Email = "test@testuser.com",
                         PhoneNumber = "4169973041",
-                        PublicKey = "1232434556",
+                        PublicKey = "",
+                    },
+                    new User
+                    {
+                        UserId = 2,
+                        Username = "user2",
+                        Password = "user2",
+                        Name = "User 2",
+                        Email = "user2@user2.com",
+                        PhoneNumber = "6473310099",
+                        PublicKey = "",
                     }
                 );
 

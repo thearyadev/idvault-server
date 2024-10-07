@@ -181,6 +181,7 @@ public static class UserRoutes
                     PhoneNumber = phone_number,
                     Username = username,
                     Password = password,
+                    PublicKey = ""
                 };
                 dbContext!.Users.Add(new_user);
                 dbContext.SaveChanges();

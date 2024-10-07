@@ -17,12 +17,14 @@ namespace IdVaultServer.Models
 
         [Required]
         public string? DocumentType { get; set; }
+
+        public string? Image { get; set;}
     }
 
     public class SharedDocument
     {
         public int Id { get; set; }
-
+        
         [Required]
         public int DocumentId { get; set; }
 

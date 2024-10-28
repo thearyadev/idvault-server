@@ -165,7 +165,7 @@ public static class DocumentRoutes
             }
         );
         endpoints.MapPost(
-            "/documents/share/{document_type}/{recepient_user_name}",
+            "/documents/share/{document_type}/{recepient_user_name}/{hours}",
             async context =>
             {
                 // user auth
@@ -226,6 +226,8 @@ public static class DocumentRoutes
                 // the json sent will be the document encrypted using the recipients public key.
                 // recipient can then download that.
                 var document_type = context.Request.RouteValues["document_type"] as string;
+                var hours = context.Request.RouteValues["hours"] as string;
+                var hoursInt = int.Parse(hours!);
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 if (document_type == "DriversLicense")
@@ -245,7 +247,7 @@ public static class DocumentRoutes
                             DocumentId = document.DocumentId,
                             SenderUserId = user_data.UserId,
                             ReceiverUserId = recipient.UserId,
-                            ExpiryDate = DateTime.UtcNow,
+                            ExpiryDate = DateTime.UtcNow.AddHours(hoursInt),
                         }
                     );
                     dbContext!.SaveChanges();
@@ -271,7 +273,7 @@ public static class DocumentRoutes
                             DocumentId = document.DocumentId,
                             SenderUserId = user_data.UserId,
                             ReceiverUserId = recipient.UserId,
-                            ExpiryDate = DateTime.UtcNow,
+                            ExpiryDate = DateTime.UtcNow.AddHours(hoursInt),
                         }
                     );
                     dbContext!.SaveChanges();
@@ -295,7 +297,7 @@ public static class DocumentRoutes
                             DocumentId = document.DocumentId,
                             SenderUserId = user_data.UserId,
                             ReceiverUserId = recipient.UserId,
-                            ExpiryDate = DateTime.UtcNow,
+                            ExpiryDate = DateTime.UtcNow.AddHours(hoursInt),
                         }
                     );
                     dbContext!.SaveChanges();
